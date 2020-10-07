@@ -41,7 +41,7 @@ module.exports = {
       numberRolled += result;
       rollNumber--;
     }
-      const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (+${numberRolled})` : `${numberRolled}`;
+      const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
 
     message.reply(
       `Your roll is: ${diceRoll.join(" ")} for a total of ${textResult}!`
