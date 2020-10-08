@@ -42,11 +42,10 @@ module.exports = {
   usage: " [optional number]",
   cooldown: 5,
   execute(message, args) {
-    let numberRolled = parseInt(args[0]);
-    if (isNaN(numberRolled) ) {
-      message.reply('you need to add an actual number to the roll!');
-      return;
-    };
+    if (args[0] && isNaN(parseInt(args[0]))) { message.reply('you need to add an actual number to the roll!');
+      return; }
+    const initialNumber = parseInt(args[0]) || 0;
+    let numberRolled = initialNumber;
     const diceRoll = [];
     let rollNumber = 4;
     while (rollNumber > 0) {
@@ -57,7 +56,7 @@ module.exports = {
     }
     const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
 
-    const embedMessage = generateEmbed(diceRoll, textResult, parseInt(args[0]));
+    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber);
     message.reply({embed: embedMessage});
   },
 };
