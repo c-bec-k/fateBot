@@ -1,10 +1,10 @@
 const { prefix } = require('../config.json')
 
 module.exports = {
-  name: 'help',
-  description: 'List of all commands or info about a specific command',
-  alias: ['commands'],
-  usage: '[command name]',
+  name: "help",
+  description: "List of all commands or info about a specific command",
+  aliases: ["commands"],
+  usage: "[command name]",
   cooldown: 5,
   execute(message, args) {
     const data = [];
@@ -31,9 +31,11 @@ module.exports = {
             "it seems like I can't DM you! Do you have DMs disabled?"
           );
         });
-    };
+    }
     const name = args[0].toLowerCase();
-    const command = commands.get(name) || commands.find(c => c.alias && c.alias.includes(name));
+    const command =
+      commands.get(name) ||
+      commands.find((c) => c.alias && c.alias.includes(name));
     if (!command) {
       return message.reply(`That's not a valid command!`);
     }
@@ -49,5 +51,5 @@ module.exports = {
     data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 
     message.channel.send(data, { split: true });
-  }
-}
+  },
+};
