@@ -1,3 +1,5 @@
+const Discord = require("discord.js");
+
 const dice = [
   { result: -1, emoji: `<:dF1:763476980363427840>` },
   { result: 0, emoji: `<:dF0:763476296763179078>` },
@@ -24,6 +26,14 @@ const fateLadder = new Map([
   [8, "Legendary"]
 ]);
 
+function generateEmbed(diceArr, textResult, initialNum) {
+  const embed = new Discord.MessageEmbed()
+    .setColor("#4CB5FF")
+    .setTitle(`You got a ${textResult} result!`)
+    .setDescription(`${diceArr.join(" ")} + ${initialNum}`);
+  return embed;
+}
+
 
 module.exports = {
   name: "roll",
@@ -32,7 +42,11 @@ module.exports = {
   usage: " [optional number]",
   cooldown: 5,
   execute(message, args) {
-    let numberRolled = parseInt(args[0]) || 0;
+    let numberRolled = parseInt(args[0]);
+    if (isNaN(numberRolled) ) {
+      message.reply('you need to add an actual number to the roll!');
+      return;
+    };
     const diceRoll = [];
     let rollNumber = 4;
     while (rollNumber > 0) {
@@ -41,10 +55,9 @@ module.exports = {
       numberRolled += result;
       rollNumber--;
     }
-      const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
+    const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '-' : '+'}${numberRolled})` : `${numberRolled}`;
 
-    message.reply(
-      `Your roll is: ${diceRoll.join(" ")} for a total of ${textResult}!`
-    );
+    const embedMessage = generateEmbed(diceRoll, textResult, parseInt(args[0]));
+    message.reply({embed: embedMessage});
   },
 };
