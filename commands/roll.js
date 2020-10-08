@@ -30,7 +30,7 @@ function generateEmbed(diceArr, textResult, initialNum) {
   const embed = new Discord.MessageEmbed()
     .setColor("#4CB5FF")
     .setTitle(`You got a ${textResult} result!`)
-    .setDescription(`${diceArr.join(" ")} + ${initialNum}`);
+    .setDescription(`${diceArr.join(" ")} ${initialNum < 0 ? '' : '+'} ${initialNum}`);
   return embed;
 }
 
@@ -55,7 +55,7 @@ module.exports = {
       numberRolled += result;
       rollNumber--;
     }
-    const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '-' : '+'}${numberRolled})` : `${numberRolled}`;
+    const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
 
     const embedMessage = generateEmbed(diceRoll, textResult, parseInt(args[0]));
     message.reply({embed: embedMessage});
