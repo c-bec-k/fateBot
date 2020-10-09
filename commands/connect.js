@@ -9,7 +9,7 @@ module.exports = {
   execute(message, args, client) {
     const totalNumber = client.guilds.cache.size;
     message.reply(
-      `**Fate Bot** is curretly in ${totalNumber} server${totalNumber === 1 ? '' : 's'}!`
+      `**Fate Bot** is currently in ${totalNumber} server${totalNumber === 1 ? '' : 's'}!`
     );
   },
 };
