@@ -1,6 +1,6 @@
 {
   "name": "fatebot",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A dice roller for the Fate RPG by Evil Hat Productions",
   "main": "index.js",
   "scripts": {
