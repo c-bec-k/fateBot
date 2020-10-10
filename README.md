@@ -4,7 +4,9 @@ This little bot rolls 4dF and adds an optional number to the total. If the resul
 
 ## Using the Bot
 
-First you need to [invite it to your server](https://discord.com/oauth2/authorize?client_id=763485934028718110&scope=bot&permissions=280640).
+You can head over to the [webpage](https://fatebot.carrd.co/) for Fate Bot for more info.
+
+[Invite Fate Bot to your server](https://discord.com/oauth2/authorize?client_id=763485934028718110&scope=bot&permissions=280640).
 
 Once invited, just use the command `.roll` with an optional number to add to the total. You can also use`.r` or `.dice` if you prefer!
 
