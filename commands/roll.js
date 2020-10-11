@@ -38,7 +38,7 @@ function generateEmbed(diceArr, textResult, initialNum, quote) {
 }
 
 function findArgs(string) {
-  const regex = /([-+]?[^'"])? ?(?:['"](.+)['"])?/;
+  const regex = /([-+]?\d+)? ?(?:['"](.+)['"])?/;
   const args = string.match(regex);
   console.log(args);
   return args;
