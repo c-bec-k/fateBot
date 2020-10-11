@@ -40,6 +40,7 @@ function generateEmbed(diceArr, textResult, initialNum, quote) {
 function findArgs(string) {
   const regex = /([-+]?[^'"])? ?(?:['"](.+)['"])?/;
   const args = string.match(regex);
+  console.log(args);
   return args;
 }
 
@@ -52,7 +53,8 @@ module.exports = {
   execute(message, args) {
     let [ignored, numToAdd, quote] = findArgs(args.join(' '));
     if (typeof(numToAdd) === 'undefined') numToAdd = 0;
-    if (!numToAdd || isNaN(parseInt(numToAdd))) { return message.reply('you need to add an actual number to the roll!'); }
+    console.log(parseInt(numToAdd));
+    if (numToAdd && isNaN(parseInt(numToAdd))) { return message.reply('you need to add an actual number to the roll!'); }
     const initialNumber = parseInt(numToAdd) || 0;
     let numberRolled = initialNumber;
     const diceRoll = [];
