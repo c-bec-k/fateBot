@@ -5,16 +5,15 @@ const {token} = require('./token.json')
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+const cooldowns = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
+  console.log(command.name, "loaded");
 }
-
-const cooldowns = new Discord.Collection();
-
 
 client.once('ready', () => {
   console.log('Ready!');
@@ -23,7 +22,7 @@ client.once('ready', () => {
 client.on('message', message => {
   if(!message.content.startsWith(`${prefix}`) || message.author.bot) return;
   const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const commandName = args.shift().toLocaleLowerCase();
+  const commandName = args.shift().toLowerCase();
   const command =
     client.commands.get(commandName) ||
     client.commands.find(
