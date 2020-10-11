@@ -26,14 +26,22 @@ const fateLadder = new Map([
   [8, "Legendary"]
 ]);
 
-function generateEmbed(diceArr, textResult, initialNum) {
+function generateEmbed(diceArr, textResult, initialNum, quote) {
   const embed = new Discord.MessageEmbed()
     .setColor("#4CB5FF")
     .setTitle(`You got a ${textResult} result!`)
     .setDescription(`${diceArr.join(" ")} ${initialNum < 0 ? '' : '+'} ${initialNum}`);
+  if (quote) {
+    embed.setAuthor( quote, '');
+  }
   return embed;
 }
 
+function findArgs(string) {
+  const regex = /([-+]?\S)? ?(?:['"](.+)['"])?/;
+  const args = string.match(regex);
+  return args;
+}
 
 module.exports = {
   name: "roll",
@@ -42,9 +50,9 @@ module.exports = {
   usage: " [optional number]",
   cooldown: 5,
   execute(message, args) {
-    if (args[0] && isNaN(parseInt(args[0]))) { message.reply('you need to add an actual number to the roll!');
-      return; }
-    const initialNumber = parseInt(args[0]) || 0;
+    const [ignored, numToAdd, quote] = findArgs(args.join(' '));
+    if (numToAdd && isNaN(parseInt(numToAdd))) { return message.reply('you need to add an actual number to the roll!'); }
+    const initialNumber = parseInt(numToAdd) || 0;
     let numberRolled = initialNumber;
     const diceRoll = [];
     let rollNumber = 4;
@@ -56,7 +64,7 @@ module.exports = {
     }
     const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
 
-    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber);
+    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber, quote);
     message.reply({embed: embedMessage});
   },
 };
