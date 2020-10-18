@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 const dice = [
   { result: -1, emoji: `<:dF1:763476980363427840>` },
@@ -26,13 +26,15 @@ const fateLadder = new Map([
   [8, "Legendary"]
 ]);
 
-function generateEmbed(diceArr, textResult, initialNum, quote) {
-  const embed = new Discord.MessageEmbed()
+function generateEmbed(diceArr, textResult, initialNum, quote, who) {
+  const embed = new MessageEmbed()
     .setColor("#4CB5FF")
     .setTitle(`You got a ${textResult} result!`)
-    .setDescription(`${diceArr.join(" ")} ${initialNum < 0 ? '' : '+'} ${initialNum}`);
+    .setDescription(`${diceArr.join(" ")} ${initialNum < 0 ? '' : '+'} ${initialNum}`)
+    .setFooter(`${who.username}`, who.avatarURL());
   if (quote) {
     embed.setAuthor( quote, '');
+    
   }
   return embed;
 }
@@ -48,9 +50,10 @@ module.exports = {
   name: "roll",
   description: "roll 4dF and add an optional number to the result",
   aliases: ["r", "dice"],
-  usage: " [optional number]",
+  usage: ' [optional number] ["optional description"}',
   cooldown: 5,
   execute(message, args) {
+    const who = message.author;
     let [ignored, numToAdd, quote] = findArgs(args.join(' '));
     if (typeof(numToAdd) === 'undefined') numToAdd = 0;
     console.log(parseInt(numToAdd));
@@ -67,7 +70,7 @@ module.exports = {
     }
     const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
 
-    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber, quote);
+    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber, quote, who);
     message.reply({embed: embedMessage});
   },
 };
