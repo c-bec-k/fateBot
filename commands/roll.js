@@ -31,7 +31,7 @@ function generateEmbed(diceArr, textResult, initialNum, quote, who) {
     .setColor("#4CB5FF")
     .setTitle(`You got a ${textResult} result!`)
     .setDescription(`${diceArr.join(" ")} ${initialNum < 0 ? '' : '+'} ${initialNum}`)
-    .setFooter(`${who.username}`, who.avatarURL());
+    .setFooter(`${who.displayName}`, who.user.avatarURL());
   if (quote) {
     embed.setAuthor( quote, '');
     
@@ -53,7 +53,6 @@ module.exports = {
   usage: ' [optional number] ["optional description"}',
   cooldown: 5,
   execute(message, args) {
-    const who = message.author;
     let [ignored, numToAdd, quote] = findArgs(args.join(' '));
     if (typeof(numToAdd) === 'undefined') numToAdd = 0;
     console.log(parseInt(numToAdd));
@@ -70,7 +69,7 @@ module.exports = {
     }
     const textResult = fateLadder.has(numberRolled) ? `${fateLadder.get(numberRolled)} (${numberRolled < 0 ? '' : '+'}${numberRolled})` : `${numberRolled}`;
 
-    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber, quote, who);
+    const embedMessage = generateEmbed(diceRoll, textResult, initialNumber, quote, message.member);
     message.reply({embed: embedMessage});
   },
 };
