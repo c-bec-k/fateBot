@@ -1,6 +1,6 @@
 {
   "name": "fatebot",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "A dice roller for the Fate RPG by Evil Hat Productions",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "author": "c__beck",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.3.1"
+    "discord.js": "^12.5.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.7"
   }
 }
