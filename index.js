@@ -1,21 +1,30 @@
-const fs = require('fs');
-const Discord = require('discord.js');
-const {prefix} = require('./config.json');
-const {token} = require('./token.json')
+import { readdirSync } from 'fs';
+import { Client, Collection } from 'discord.js';
+import { prefix } from './config.js';
+import { token } from './token.js';
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
-const cooldowns = new Discord.Collection();
+const client = new Client();
+client.commands = new Collection();
+client.slashCommands = new Collection();
+const cooldowns = new Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
+const slashFiles = readdirSync('./slash').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
+slashFiles.forEach( async (file) =>{
+  const command = await import(`./slash/${file}`);
+  client.slashCommands.set(command.data.name, command.callback);
+  console.log(`Slash ${command.data.name} loaded!`);
+});
+
+commandFiles.forEach( async (file) =>{
+  const {command} = await import(`./commands/${file}`);
   client.commands.set(command.name, command);
   console.log(command.name, "loaded");
-}
+});
 
 client.once('ready', () => {
+  // console.log(client.commands);
   console.log('Ready!');
 });
 
@@ -34,7 +43,7 @@ client.on('message', message => {
   }
 
   if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Discord.Collection());
+    cooldowns.set(command.name, new Collection());
   };
 
   const now = Date.now();
@@ -62,6 +71,14 @@ client.on('message', message => {
     console.error(error);
     message.reply("there was an error trying to execute that command!");
   }
+});
+
+
+client.ws.on('INTERACTION_CREATE', async (interaction) => {
+  if(client.slashCommands.get(interaction.data.name)) {
+    const data = await client.slashCommands.get(interaction.data.name)(interaction.data);
+    client.api.interactions(interaction.id, interaction.token).callback.post({ data });
+  }      
 });
 
 client.login(token);

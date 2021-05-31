@@ -1,6 +1,6 @@
-const { prefix } = require('../config.json')
+import { prefix } from '../config.js';;
 
-module.exports = {
+export const command = {
   name: "help",
   description: "List of all commands or info about a specific command",
   aliases: ["commands"],

@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js';
 
-const embeded = new MessageEmbed()
+const embed = new MessageEmbed()
   .setColor('#4CB5FF')
   .setTitle('The Fate Ladder')
   .setDescription(`+8: Legendary
@@ -19,14 +19,16 @@ const embeded = new MessageEmbed()
 `)
   .setURL('https://fate-srd.com/fate-condensed/getting-started#the-adjective-ladder');
 
-export const command = {
-  name: "ladder",
-  description: "shows you the Fate ladder",
-  aliases: ["adjectives", "numbers"],
-  usage: "",
-  cooldown: 5,
-  execute(message) {
-
-    message.reply({embed: embeded});
-  },
+export const data = {
+  "name": "ladder",
+  "description": "shows you the Fate ladder"
 };
+
+export const callback = (data) => {
+  return {
+    type: 4,
+    data: {
+      embeds: [embed]
+    }
+  }
+}

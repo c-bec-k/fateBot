@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+import { MessageEmbed } from "discord.js";
 
 const dice = [
   { result: -1, emoji: `<:dF1:763476980363427840>` },
@@ -46,7 +46,7 @@ function findArgs(string) {
   return args;
 }
 
-module.exports = {
+export const command = {
   name: "roll",
   description: "roll 4dF and add an optional number to the result",
   aliases: ["r", "dice"],

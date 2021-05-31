@@ -1,5 +1,6 @@
 {
   "name": "fatebot",
+  "type": "module",
   "version": "0.2.10",
   "description": "A dice roller for the Fate RPG by Evil Hat Productions",
   "main": "index.js",

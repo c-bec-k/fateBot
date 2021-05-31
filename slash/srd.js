@@ -20,3 +20,17 @@ export const command = {
     message.reply({embed: srdLinks});
   },
 };
+
+export const data = {
+  "name": "srd",
+  "description": "Links to the Fate SRD"
+}
+
+export const callback = () => {
+  return {
+    type: 4,
+    data: {
+      embeds: [srdLinks]
+    }
+  }
+}

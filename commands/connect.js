@@ -1,6 +1,4 @@
-const { prefix } = require("../config.json");
-
-module.exports = {
+export const command = {
   name: "connect",
   description: "tells you how many servers are using Fate Bot",
   aliases: ["brag"],
