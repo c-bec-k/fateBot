@@ -24,7 +24,7 @@ export const data = {
   "description": "shows you the Fate ladder"
 };
 
-export const callback = (data) => {
+export const callback = () => {
   return {
     type: 4,
     data: {

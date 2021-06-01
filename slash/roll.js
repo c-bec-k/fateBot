@@ -45,10 +45,10 @@ export const data = {
   ]
 }
 
-export const callback = (data) => {
+export const callback = (interaction) => {
   let opts = {};
-  if (data.options) {
-    for (const {name, value} of data.options) {
+  if (interaction.options) {
+    for (const {name, value} of interaction.options) {
       opts[name] = value;
     }
   }

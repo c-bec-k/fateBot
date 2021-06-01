@@ -3,7 +3,7 @@ const data = {
   "description": "gives you the link to invite Fate Bot to another server!"
 }
 
-const callback = (interation) => {
+const callback = () => {
   return {
     type: 4,
     data: {
