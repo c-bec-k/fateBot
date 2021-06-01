@@ -1,9 +1,9 @@
 import { readdirSync } from 'fs';
-import { Client, Collection } from 'discord.js';
+import { Client, Collection, Intents } from 'discord.js';
 import { prefix } from './config.js';
 import { token } from './token.js';
 
-const client = new Client();
+const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]});
 client.commands = new Collection();
 client.slashCommands = new Collection();
 const cooldowns = new Collection();
@@ -24,7 +24,6 @@ commandFiles.forEach( async (file) =>{
 });
 
 client.once('ready', () => {
-  // console.log(client.commands);
   console.log('Ready!');
 });
 
@@ -78,7 +77,7 @@ client.ws.on('INTERACTION_CREATE', async (interaction) => {
   if(client.slashCommands.get(interaction.data.name)) {
     const data = await client.slashCommands.get(interaction.data.name)(interaction.data);
     client.api.interactions(interaction.id, interaction.token).callback.post({ data });
-  }      
+  }
 });
 
 client.login(token);
