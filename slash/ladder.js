@@ -25,10 +25,5 @@ export const data = {
 };
 
 export const callback = () => {
-  return {
-    type: 4,
-    data: {
-      embeds: [embed]
-    }
-  }
+  return embed
 }

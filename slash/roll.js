@@ -45,10 +45,10 @@ export const data = {
   ]
 }
 
-export const callback = (interaction) => {
+export const callback = (options) => {
   let opts = {};
-  if (interaction.options) {
-    for (const {name, value} of interaction.options) {
+  if (options) {
+    for (const {name, value} of options) {
       opts[name] = value;
     }
   }
@@ -63,19 +63,9 @@ export const callback = (interaction) => {
   dice.forEach(die => emojis.push(die.emoji))
   const text = generateTextResult(total);
   const embed = slashEmbed(text, emojis, total, opts);
-  const res = generateData(embed);
-  return res;
+  return embed;
 }
 
-
-function generateData(embed) {
-  return {
-    type: 4,
-    data: {
-      embeds: [embed]
-    }
-  }
-}
 function generateTotal(diceArr, opts) {
   let total = opts.modifier || 0;
   diceArr.forEach( die => {
@@ -86,7 +76,7 @@ function generateTotal(diceArr, opts) {
 
 function generateTextResult(num) {
   const formattedNum = Intl.NumberFormat(undefined, {signDisplay: 'always'}).format(num);
-  return `${(fateLadder.get(num)) ? `**${fateLadder.get(num)}**(${formattedNum})` : `${formattedNum}`}`;
+  return `${(fateLadder.get(num)) ? `**${fateLadder.get(num)}** (${formattedNum})` : `${formattedNum}`}`;
 }
 
 function slashEmbed(textResult, emoji, total, opts) {

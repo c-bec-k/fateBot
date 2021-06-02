@@ -73,10 +73,10 @@ client.on('message', message => {
 });
 
 
-client.ws.on('INTERACTION_CREATE', async (interaction) => {
-  if(client.slashCommands.get(interaction.data.name)) {
-    const data = await client.slashCommands.get(interaction.data.name)(interaction.data);
-    client.api.interactions(interaction.id, interaction.token).callback.post({ data });
+client.on('interaction', async (interaction) => {
+  if(client.slashCommands.get(interaction.commandName)) {
+    const data = await client.slashCommands.get(interaction.commandName)(interaction.options);
+    interaction.reply(data);
   }
 });
 

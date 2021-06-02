@@ -4,12 +4,7 @@ const data = {
 }
 
 const callback = () => {
-  return {
-    type: 4,
-    data: {
-      content: `[You can invite the bot with this link!](<https://discord.com/api/oauth2/authorize?client_id=763485934028718110&permissions=0&scope=bot%20applications.commands>)`
-    }
-  }
+  return `[You can invite the bot with this link!](<https://discord.com/api/oauth2/authorize?client_id=763485934028718110&permissions=0&scope=bot%20applications.commands>)`
 }
 
 
