@@ -25,5 +25,5 @@ export const data = {
 };
 
 export const callback = () => {
-  return embed
+  return embed;
 }

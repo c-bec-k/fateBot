@@ -74,6 +74,7 @@ client.on('message', message => {
 
 
 client.on('interaction', async (interaction) => {
+  console.log(interaction); 
   if(client.slashCommands.get(interaction.commandName)) {
     const data = await client.slashCommands.get(interaction.commandName)(interaction.options);
     interaction.reply(data);
