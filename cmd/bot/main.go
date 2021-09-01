@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/c-bec-k/discgo/internal/commands"
-	"github.com/c-bec-k/discgo/pkg/data"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/c-bec-k/discgo/internal/commands"
+	"github.com/c-bec-k/discgo/pkg/data"
 )
 
 type config struct {
@@ -65,11 +66,11 @@ func main() {
 	}
 
 	bot.cmdCache = map[data.Snowflake]func(http.ResponseWriter, map[string]interface{}){
-		859956957145858059: commands.XdfReply,
-		882295378437873664: commands.RollReply,
-		882306410589847672: commands.LadderReply,
-		867460583091077120: commands.SRDreply,
-		882675083162832957: commands.InviteReply,
+		859962980333649950: commands.XdfReply,
+		849382554069893130: commands.RollReply,
+		849382454761881610: commands.LadderReply,
+		849382794656088064: commands.SRDreply,
+		849382348914819172: commands.InviteReply,
 	}
 
 	fmt.Printf("Running app on %v with version number %v\n", cfg.port, cfg.api)
