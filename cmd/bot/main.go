@@ -29,7 +29,6 @@ type applicaiton struct {
 }
 
 var (
-	version   string
 	UserAgent = "DiscordBot (https://github.com/c-bec-k/discgo, v0.1.0)"
 )
 
