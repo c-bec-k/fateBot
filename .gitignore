@@ -1,5 +1,4 @@
-node_modules/
-token.json
 .DS_store
-token.js
 .rest
+/bin
+.envrc
