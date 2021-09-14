@@ -3,7 +3,7 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/c-bec-k/discgo/pkg/data"
+	"github.com/c-bec-k/fateBot/pkg/data"
 	"net/http"
 )
 

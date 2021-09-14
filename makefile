@@ -24,5 +24,5 @@ linker_flags = '-s -X main.version=${git_description}'
 .PHONY: build/bot
 build/bot:
 	@echo 'Building cmd/bot...'
-	go build -ldflags=${linker_flags} -o=./bin/bot ./cmd/bot
-	GOOS=linux GOARCH=amd64 go build -ldflags=${linker_flags} -o=./bin/linux_amd64/bot ./cmd/bot
+	go build -ldflags=${linker_flags} -o=./bin/fatebot ./cmd/fatebot
+	GOOS=linux GOARCH=amd64 go build -ldflags=${linker_flags} -o=./bin/linux_amd64/fatebot ./cmd/fatebot

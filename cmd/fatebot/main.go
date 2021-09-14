@@ -10,8 +10,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/c-bec-k/discgo/internal/commands"
-	"github.com/c-bec-k/discgo/pkg/data"
+	"github.com/c-bec-k/fateBot/internal/commands"
+	"github.com/c-bec-k/fateBot/pkg/data"
 )
 
 type config struct {
@@ -22,7 +22,7 @@ type config struct {
 	pubkey string
 }
 
-type applicaiton struct {
+type application struct {
 	config   config
 	logger   *log.Logger
 	cmdCache map[data.Snowflake]func(http.ResponseWriter, map[string]interface{})
@@ -32,10 +32,12 @@ var (
 	UserAgent = "DiscordBot (https://github.com/c-bec-k/discgo, v0.1.0)"
 )
 
+//var version = "1.0.0"
+
 func main() {
 	var cfg config
 
-	flag.IntVar(&cfg.port, "addr", 80, "HTTP network address")
+	flag.IntVar(&cfg.port, "addr", 8080, "HTTP network address")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 	flag.StringVar(&cfg.token, "token", "", "your bot token")
 	flag.IntVar(&cfg.api, "api", 9, "default API version")
@@ -44,7 +46,7 @@ func main() {
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
-	bot := applicaiton{
+	bot := application{
 		config: cfg,
 		logger: logger,
 	}
@@ -74,12 +76,12 @@ func main() {
 
 	fmt.Printf("Running app on %v with version number %v\n", cfg.port, cfg.api)
 	if //goland:noinspection ALL
-	err := srv.ListenAndServeTLS("/etc/letsencrypt/live/discgo.hopto.org/fullchain.pem", "/etc/letsencrypt/live/discgo.hopto.org/privkey.pem"); err != nil {
+	err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("error: %v\n", err)
 	}
 }
 
-func (app *applicaiton) home(w http.ResponseWriter, r *http.Request) {
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	//goland:noinspection ALL
 	verified := VerifyBot(r, app.config.pubkey)
 	if !verified {
@@ -97,6 +99,7 @@ func (app *applicaiton) home(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
+	//fmt.Printf("Incoming Body: %s\n", b)
 	//goland:noinspection ALL
 	apireq := data.Interaction{}
 
@@ -106,9 +109,10 @@ func (app *applicaiton) home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
+	//fmt.Printf("APIreq struct: %+v\n", apireq)
 
 	if apireq.Type == 1 {
-		//fmt.Println("Verification successful! Sending JSON reply")
+		fmt.Println("Verification successful! Sending JSON reply")
 		jsonRes := `{"type": 1}`
 		tokenHeader := fmt.Sprintf("bot %v", app.config.token)
 		w.Header().Set("Authorization", tokenHeader)
@@ -117,6 +121,8 @@ func (app *applicaiton) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	commandID := apireq.Data.ID
+
+	//fmt.Printf("Command ID: %v\n", commandID)
 	opts := map[string]interface{}{}
 	for _, v := range apireq.Data.Options {
 		opts[v.Name] = v.Value
