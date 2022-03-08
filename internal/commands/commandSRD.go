@@ -3,8 +3,9 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/c-bec-k/fateBot/pkg/data"
 	"net/http"
+
+	"github.com/c-bec-k/fateBot/pkg/data"
 )
 
 func SRDreply(w http.ResponseWriter, opts map[string]interface{}) {
@@ -67,7 +68,7 @@ func SRDreply(w http.ResponseWriter, opts map[string]interface{}) {
 	reply := data.InteractionResponse{
 		Type: data.ChannelMessageWithSourceCallback,
 		Data: data.InteractionCallbackData{
-			Content: "inks to the Fate SRD",
+			Content: "Links to the Fate SRD",
 			Components: []data.ActionRow{
 				ar1, ar2, ar3, ar4, ar5,
 			},
