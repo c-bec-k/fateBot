@@ -7,7 +7,7 @@ include .envrc
 ## run/api: run the cmd/api application
 .PHONY: run/bot/test
 run/bot/test:
-	@sudo go run ./cmd/bot -token=${TEST_TOKEN} -pubkey=${TEST_PUB_KEY} -addr=${TEST_PORT}
+	@sudo go run ./cmd/fatebot -token=${TEST_TOKEN} -pubkey=${TEST_PUB_KEY} -addr=${TEST_PORT}
 
 .PHONY: run/bot/prod
 run/bot/prod:
@@ -26,3 +26,8 @@ build/bot:
 	@echo 'Building cmd/bot...'
 	go build -ldflags=${linker_flags} -o=./bin/fatebot ./cmd/fatebot
 	GOOS=linux GOARCH=amd64 go build -ldflags=${linker_flags} -o=./bin/linux_amd64/fatebot ./cmd/fatebot
+
+## rSync the bot to the server
+.PHONY: sync/bot
+sync/bot:
+	rsync --rsync-path="sudo rsync" -P bin/linux_amd64/fatebot beck@45.153.48.58:/var/www/bots/fatebot

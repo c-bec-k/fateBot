@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -40,7 +40,7 @@ func main() {
 	flag.IntVar(&cfg.port, "addr", 8080, "HTTP network address")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 	flag.StringVar(&cfg.token, "token", "", "your bot token")
-	flag.IntVar(&cfg.api, "api", 9, "default API version")
+	flag.IntVar(&cfg.api, "api", 10, "default API version")
 	flag.StringVar(&cfg.pubkey, "pubkey", "", "Your bot's public key")
 	flag.Parse()
 
@@ -67,22 +67,21 @@ func main() {
 	}
 
 	bot.cmdCache = map[data.Snowflake]func(http.ResponseWriter, map[string]interface{}){
-		859962980333649950: commands.XdfReply,
-		849382554069893130: commands.RollReply,
-		849382454761881610: commands.LadderReply,
-		849382794656088064: commands.SRDreply,
-		849382348914819172: commands.InviteReply,
+		859962980333649950:  commands.XdfReply,
+		849382554069893130:  commands.RollReply,
+		849382454761881610:  commands.LadderReply,
+		849382794656088064:  commands.SRDreply,
+		849382348914819172:  commands.InviteReply,
+		1068300095583428698: commands.RollStringReply,
 	}
 
 	fmt.Printf("Running app on %v with version number %v\n", cfg.port, cfg.api)
-	if //goland:noinspection ALL
-	err := srv.ListenAndServe(); err != nil {
+	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("error: %v\n", err)
 	}
 }
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	//goland:noinspection ALL
 	verified := VerifyBot(r, app.config.pubkey)
 	if !verified {
 		http.Error(w, "signature mismatch", http.StatusUnauthorized)
@@ -92,7 +91,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "invalid request", http.StatusUnauthorized)
 	}
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -100,7 +99,6 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	//fmt.Printf("Incoming Body: %s\n", b)
-	//goland:noinspection ALL
 	apireq := data.Interaction{}
 
 	err = json.Unmarshal(b, &apireq)
@@ -122,7 +120,6 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 	commandID := apireq.Data.ID
 
-	//fmt.Printf("Command ID: %v\n", commandID)
 	opts := map[string]interface{}{}
 	for _, v := range apireq.Data.Options {
 		opts[v.Name] = v.Value

@@ -3,10 +3,11 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/c-bec-k/fateBot/pkg/data"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/c-bec-k/fateBot/pkg/data"
 )
 
 func XdfReply(w http.ResponseWriter, opts map[string]interface{}) {
@@ -24,7 +25,7 @@ func XdfReply(w http.ResponseWriter, opts map[string]interface{}) {
 	embed := data.MessageEmbed{
 		Title:       fmt.Sprintf("You rolled %d fate dice!", numToRoll),
 		Color:       5027327,
-		Description: fmt.Sprintf(strings.Join(emoji, " ")),
+		Description: strings.Join(emoji, " "),
 	}
 
 	if opts["desc"] != nil {

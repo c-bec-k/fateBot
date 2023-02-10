@@ -5,7 +5,6 @@ import (
 	"crypto/ed25519"
 	"encoding/hex"
 	"io"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -37,7 +36,7 @@ func VerifyBot(r *http.Request, pubKey string) bool {
 	defer r.Body.Close()
 	var body bytes.Buffer
 	defer func() {
-		r.Body = ioutil.NopCloser(&body)
+		r.Body = io.NopCloser(&body)
 	}()
 
 	_, err = io.Copy(&msg, io.TeeReader(r.Body, &body))
