@@ -11,9 +11,9 @@ type die struct {
 }
 
 var dice = []die{
-	{result: -1, emoji: "<:dFm:940666692927905832>"},
-	{result: 0, emoji: "<:dF0:763476296763179078>"},
-	{result: 1, emoji: "<:dFp:940666693049544705>"},
+	{result: -1, emoji: "<:dFm:1264228207536640073>"},
+	{result: 0, emoji: "<:dF0:1264228218588626979>"},
+	{result: 1, emoji: "<:dFp:1264228218588626979>"},
 }
 
 func getDieResult() die {
